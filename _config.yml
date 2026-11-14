@@ -1,0 +1,8 @@
+title: CodeBase by Luki Hackwell
+description: Scripts and reusable snippets for systems, networks, and automation.
+url: https://codebase.lukihackwell.com
+baseurl: ""
+exclude:
+  - README.md
+  - package.json
+  - tests

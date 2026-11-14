@@ -1,0 +1,77 @@
+---
+layout: null
+permalink: /catalog.json
+---
+{%- assign source_files = site.static_files | sort: "path" -%}
+{%- assign empty_array = "" | split: "," -%}
+{%- assign first_entry = true -%}
+{%- assign allowed_initial = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" -%}
+{%- assign allowed_characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789._ -" -%}
+{"schemaVersion":1,"entries":[
+{%- for file in source_files -%}
+  {%- assign prefix = file.path | slice: 0, 6 -%}
+  {%- assign language = "" -%}
+  {%- if prefix == "/nlsh/" -%}
+    {%- if file.extname == ".sh" -%}
+      {%- assign language = "Shell" -%}
+    {%- elsif file.extname == ".bash" -%}
+      {%- assign language = "Bash" -%}
+    {%- endif -%}
+  {%- elsif prefix == "/nlpy/" and file.extname == ".py" -%}
+    {%- assign language = "Python" -%}
+  {%- elsif prefix == "/nlps/" and file.extname == ".ps1" -%}
+    {%- assign language = "PowerShell" -%}
+  {%- endif -%}
+  {%- if language != "" -%}
+    {%- assign valid_path = true -%}
+    {%- assign path_length = file.path | size -%}
+    {%- if path_length > 512 -%}
+      {%- assign valid_path = false -%}
+    {%- endif -%}
+    {%- assign relative_path = file.path | remove_first: "/" -%}
+    {%- assign path_segments = relative_path | split: "/" -%}
+    {%- for segment in path_segments -%}
+      {%- assign segment_length = segment | size -%}
+      {%- assign first_character = segment | slice: 0, 1 -%}
+      {%- if segment_length == 0 or segment_length > 128 -%}
+        {%- assign valid_path = false -%}
+        {%- break -%}
+      {%- endif -%}
+      {%- unless allowed_initial contains first_character -%}
+        {%- assign valid_path = false -%}
+        {%- break -%}
+      {%- endunless -%}
+      {%- assign characters = segment | split: "" -%}
+      {%- for character in characters -%}
+        {%- unless allowed_characters contains character -%}
+          {%- assign valid_path = false -%}
+          {%- break -%}
+        {%- endunless -%}
+      {%- endfor -%}
+      {%- unless valid_path -%}{%- break -%}{%- endunless -%}
+    {%- endfor -%}
+    {%- if valid_path -%}
+      {%- assign metadata = site.data.catalog[file.path] -%}
+      {%- assign default_title = file.basename | replace: "_", " " | replace: "-", " " | default: file.name -%}
+      {%- assign kind = "script" -%}
+      {%- if metadata.kind == "snippet" -%}{%- assign kind = "snippet" -%}{%- endif -%}
+      {%- unless first_entry -%},{%- endunless -%}
+      {
+        "path":{{ file.path | jsonify }},
+        "title":{{ metadata.title | default: default_title | jsonify }},
+        "description":{{ metadata.description | default: "" | jsonify }},
+        "language":{{ language | jsonify }},
+        "platforms":{{ metadata.platforms | default: empty_array | jsonify }},
+        "kind":{{ kind | jsonify }},
+        "tags":{{ metadata.tags | default: empty_array | jsonify }},
+        "requirements":{{ metadata.requirements | default: "" | jsonify }},
+        "usage":{{ metadata.usage | default: "" | jsonify }},
+        "verification":{{ metadata.verification | default: "" | jsonify }},
+        "license":{{ metadata.license | default: "" | jsonify }},
+        "updated":{{ metadata.updated | default: "" | jsonify }}
+      }
+      {%- assign first_entry = false -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+]}

@@ -1,0 +1,171 @@
+---
+layout: null
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="description" content="Scripts and reusable snippets for systems, networks, and automation. Explore CodeBase by Luki Hackwell.">
+    <meta name="color-scheme" content="dark light">
+    <title>CodeBase by Luki Hackwell — Scripts &amp; Snippets</title>
+    <link rel="canonical" href="https://codebase.lukihackwell.com/">
+    <link rel="icon" href="{{ '/assets/favicon.svg' | relative_url }}" type="image/svg+xml">
+    <link rel="stylesheet" href="{{ '/assets/styles.css' | relative_url }}">
+    <script type="module" src="{{ '/assets/app.js' | relative_url }}"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#collection">Skip to collection</a>
+    <header class="site-header">
+      <div class="header-inner page-width">
+        <a class="brand" href="{{ '/' | relative_url }}" aria-label="CodeBase home">
+          <span class="brand-mark" aria-hidden="true">&lt;/&gt;</span>
+          <span class="brand-text"><span class="brand-name">CodeBase</span><span class="brand-byline">by Luki Hackwell</span></span>
+        </a>
+        <nav class="header-actions" aria-label="Main navigation">
+          <a class="nav-link current" href="#collection" aria-current="page">Collection</a>
+          <button id="about-toggle" class="nav-link" type="button" aria-expanded="false" aria-controls="about-panel">About</button>
+          <a class="nav-link" href="https://github.com/networkluki/cb" target="_blank" rel="noopener noreferrer">GitHub <span class="external-arrow" aria-hidden="true">↗</span></a>
+          <label class="theme-label" for="theme-select"><span>Theme</span>
+            <select id="theme-select" aria-label="Color theme">
+              <option value="system">System</option>
+              <option value="dark">Dark</option>
+              <option value="light">Light</option>
+            </select>
+          </label>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-width main-content">
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Systems <span aria-hidden="true">·</span> Networks <span aria-hidden="true">·</span> Automation</p>
+        <h1 id="page-title">Useful code.<br class="mobile-break"> Ready to explore.</h1>
+        <p class="hero-description">Scripts and reusable snippets for everyday development and operations.</p>
+      </section>
+
+      <section id="about-panel" class="about-panel" aria-labelledby="about-title" hidden>
+        <h2 id="about-title">About CodeBase</h2>
+        <p>A collection of scripts, small tools, and reusable code by Luki Hackwell. Browse by language and platform, inspect the source, and find the requirements before using a file.</p>
+        <p><a href="https://lukihackwell.com/" target="_blank" rel="noopener noreferrer">Visit Luki Hackwell</a><span class="link-divider" aria-hidden="true">/</span><a href="https://github.com/networkluki/cb" target="_blank" rel="noopener noreferrer">Explore the repository</a></p>
+      </section>
+
+      <section id="collection" class="collection" aria-label="Browse scripts and snippets">
+        <div class="search-container">
+          <label for="search-input" class="search-label">Search the collection</label>
+          <input id="search-input" class="search-input" type="search" placeholder="Search scripts, snippets, or topics…" autocomplete="off" maxlength="200" spellcheck="false">
+        </div>
+        <div class="filter-toolbar">
+          <div id="type-filters" class="type-filters" role="group" aria-label="Content type">
+            <button type="button" data-kind="all" aria-pressed="true">All code</button>
+            <button type="button" data-kind="script" aria-pressed="false">Scripts</button>
+            <button type="button" data-kind="snippet" aria-pressed="false">Snippets</button>
+          </div>
+          <div class="select-filters">
+            <label for="language-filter">Language
+              <select id="language-filter">
+                <option value="all">All languages</option>
+                <option value="Bash">Bash</option>
+                <option value="Shell">Shell</option>
+                <option value="Python">Python</option>
+                <option value="PowerShell">PowerShell</option>
+              </select>
+            </label>
+            <label for="platform-filter">Platform
+              <select id="platform-filter">
+                <option value="all">All platforms</option>
+                <option value="Linux">Linux</option>
+                <option value="Windows">Windows</option>
+                <option value="macOS">macOS</option>
+              </select>
+            </label>
+            <label for="sort-select">Sort by
+              <select id="sort-select">
+                <option value="updated">Recently updated</option>
+                <option value="title">Name A–Z</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <p id="result-count" class="result-count" role="status" aria-live="polite">Loading collection…</p>
+
+        <noscript>
+          <div class="notice">
+            <h2>Explore the source files</h2>
+            <p>Enable JavaScript to search and preview this collection, or <a href="https://github.com/networkluki/cb">browse the files on GitHub</a>.</p>
+          </div>
+        </noscript>
+        <div id="loading-state" class="loading-state" role="status"><span class="status-dot" aria-hidden="true"></span>Loading scripts and snippets…</div>
+        <div id="load-error" class="notice error-notice" role="alert" hidden>
+          <h2>The collection could not be loaded</h2>
+          <p>Please try again, or browse the source files on GitHub.</p>
+          <div class="inline-actions"><button id="retry-load" class="button button-primary" type="button">Try again</button><a class="text-link" href="https://github.com/networkluki/cb">View repository <span aria-hidden="true">↗</span></a></div>
+        </div>
+
+        <div class="catalog-layout">
+          <div class="catalog-column">
+            <div id="catalog-list" class="catalog-list" aria-label="Collection entries"></div>
+            <section id="empty-state" class="empty-state" aria-labelledby="empty-title" hidden>
+              <span class="empty-mark" aria-hidden="true">&lt;/&gt;</span>
+              <h2 id="empty-title">The collection starts here.</h2>
+              <p id="empty-description">New scripts and snippets will appear here as they are published.</p>
+              <div class="inline-actions"><button id="reset-filters" class="button" type="button" hidden>Clear filters</button><a class="text-link" href="https://github.com/networkluki/cb">View repository <span aria-hidden="true">↗</span></a></div>
+            </section>
+          </div>
+
+          <div class="detail-column">
+            <section id="detail-placeholder" class="detail-placeholder" aria-labelledby="placeholder-title">
+              <span class="detail-label">Source &amp; documentation</span>
+              <h2 id="placeholder-title">A closer look at the code.</h2>
+              <p>Select an entry to read its source, requirements, and usage instructions.</p>
+              <div class="placeholder-foot"><span>Read</span><span aria-hidden="true">/</span><span>Understand</span><span aria-hidden="true">/</span><span>Reuse</span></div>
+            </section>
+
+            <article id="detail-panel" class="detail-panel" aria-labelledby="detail-title" hidden>
+              <header class="detail-header">
+                <span class="detail-label">Source &amp; documentation</span>
+                <h2 id="detail-title"></h2>
+                <div id="detail-tags" class="entry-tags"></div>
+                <p id="detail-description" class="detail-description"></p>
+              </header>
+              <div class="file-toolbar">
+                <span id="detail-filename" class="filename"></span>
+                <button id="copy-code" class="button button-small" type="button">Copy code</button>
+              </div>
+              <p id="code-status" class="code-status" role="status" aria-live="polite"></p>
+              <pre class="source-code" tabindex="0" aria-label="Source code"><code id="code-block"></code></pre>
+              <div class="detail-body">
+                <div class="detail-actions">
+                  <a id="download-code" class="button button-primary" download>Download file</a>
+                  <a id="source-link" class="button" target="_blank" rel="noopener noreferrer">Source on GitHub <span aria-hidden="true">↗</span></a>
+                  <button id="share-entry" class="button" type="button">Copy link</button>
+                </div>
+                <p id="action-status" class="action-status" role="status" aria-live="polite"></p>
+                <section class="detail-section" aria-labelledby="requirements-title">
+                  <h3 id="requirements-title">Requirements</h3>
+                  <p id="detail-requirements"></p>
+                </section>
+                <section class="detail-section" aria-labelledby="usage-title">
+                  <h3 id="usage-title">Usage</h3>
+                  <pre class="usage-code"><code id="detail-usage"></code></pre>
+                </section>
+                <dl class="detail-meta">
+                  <div><dt>Verification</dt><dd id="detail-verification"></dd></div>
+                  <div><dt>License</dt><dd id="detail-license"></dd></div>
+                  <div><dt>Updated</dt><dd id="detail-updated"></dd></div>
+                </dl>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer page-width">
+      <p>CodeBase <span class="footer-byline">by Luki Hackwell</span></p>
+      <div><a href="https://lukihackwell.com/" target="_blank" rel="noopener noreferrer">Portfolio</a><span aria-hidden="true">/</span><a href="https://github.com/networkluki/cb" target="_blank" rel="noopener noreferrer">Source on GitHub</a></div>
+    </footer>
+  </body>
+</html>

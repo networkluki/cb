@@ -1,0 +1,17 @@
+# Optional metadata keyed by the exact repository path, including its leading slash.
+# Leave this mapping empty until real source files have been published.
+# Remove the {} line when adding the first mapping entry.
+{}
+
+# Illustrative template only: replace the path with an existing file before use.
+# "/nlpy/your_script.py":
+#   title: "Replace with a descriptive title"
+#   description: "Replace with an accurate description of the actual code."
+#   kind: "script" # Use "snippet" for a reusable code fragment.
+#   platforms: [] # Add supported platforms only when established.
+#   tags: []
+#   requirements: ""
+#   usage: ""
+#   verification: "" # Describe checks actually performed, or leave empty.
+#   license: "" # Name a license only if it applies to this file.
+#   updated: "" # Use a quoted YYYY-MM-DD date, or leave empty.
